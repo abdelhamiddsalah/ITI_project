@@ -63,13 +63,13 @@ class _MealPageState extends State<MealPage> {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                    Text(product.title.toString()),
+                    Text(meal['strMeal']),
                     const SizedBox(height: 8),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         const Text('Price:'),
-                        Text(product.price.toString(), style: const TextStyle(fontWeight: FontWeight.bold)),
+                        Text(meal['strCategory'], style: const TextStyle(fontWeight: FontWeight.bold)),
                       ],
                     ),
                               ],
