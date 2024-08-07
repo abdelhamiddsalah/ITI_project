@@ -15,10 +15,21 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+<<<<<<< HEAD
+    return BlocProvider(
+      create: (context) => EcomcubitCubit(DioService()),
+      child: const MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Flutter Demo',
+        home: RandomPage(),
+
+      ),
+=======
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       home: MealPage(),
+>>>>>>> feb70eb403b5a1d0f69976b4900df8b398bedf1c
     );
   }
 }

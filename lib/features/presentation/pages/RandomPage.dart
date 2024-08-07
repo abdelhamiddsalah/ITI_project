@@ -28,6 +28,39 @@ class _RandomPageState extends State<RandomPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: appbar(),
+<<<<<<< HEAD
+
+      body: SafeArea(
+        child:
+         BlocConsumer<EcomcubitCubit,EcomcubitState>(
+          listener: (context, state) {
+
+            if(state is EcomcubitFailure) {
+              SnackBar snackBar = SnackBar(
+                content: Text(state.error),
+                backgroundColor: Colors.red,
+              );
+              ScaffoldMessenger.of(context).showSnackBar(snackBar);
+            }
+
+          },
+          builder: (context, state) {
+
+            if(state is EcomcubitLoading) {
+              return  const Center(
+                child: CircularProgressIndicator(),
+
+              );
+            }
+
+            if(state is EcomcubitSuccess) {
+              return
+              RandomWidget(posts: state.porand);
+            }
+
+            return const Center(
+              child: Text("An error occured!"),
+=======
       body: FutureBuilder<List<Jewe>>(
         future: _futureProducts,
         builder: (context, snapshot) {
@@ -99,6 +132,7 @@ class _RandomPageState extends State<RandomPage> {
                   ),
                 ],
               ),
+>>>>>>> feb70eb403b5a1d0f69976b4900df8b398bedf1c
             );
           }
         },
