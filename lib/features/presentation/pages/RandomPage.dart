@@ -11,6 +11,7 @@ class RandomPage extends StatelessWidget {
   Widget build(BuildContext context) {
  return Scaffold(
       appBar: appbar(),
+
       body: SafeArea(
         child:
          BlocConsumer<EcomcubitCubit,EcomcubitState>(
@@ -30,11 +31,12 @@ class RandomPage extends StatelessWidget {
             if(state is EcomcubitLoading) {
               return  const Center(
                 child: CircularProgressIndicator(),
+
               );
             }
 
             if(state is EcomcubitSuccess) {
-              return 
+              return
               RandomWidget(posts: state.porand);
             }
 
