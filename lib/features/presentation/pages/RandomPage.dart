@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+/*import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iti_project/features/presentation/cubit/cubit/ecomcubit_cubit.dart';
 import 'package:iti_project/features/presentation/widgets/RandomWidget.dart';
@@ -13,10 +13,10 @@ class RandomPage extends StatelessWidget {
       appBar: appbar(),
       body: SafeArea(
         child:
-         BlocConsumer<EcomcubitCubit,EcomcubitState>(
+         BlocConsumer<EcomCubit,EcomCubitState>(
           listener: (context, state) {
 
-            if(state is EcomcubitFailure) {
+            if(state is EcomCubitFailure) {
               SnackBar snackBar = SnackBar(
                 content: Text(state.error),
                 backgroundColor: Colors.red,
@@ -27,15 +27,15 @@ class RandomPage extends StatelessWidget {
           },
           builder: (context, state) {
 
-            if(state is EcomcubitLoading) {
+            if(state is EcomCubitLoading) {
               return  const Center(
                 child: CircularProgressIndicator(),
               );
             }
 
-            if(state is EcomcubitSuccess) {
+            if(state is EcomCubitRandomSuccess) {
               return 
-              RandomWidget(posts: state.porand);
+              RandomWidget(posts: state.randomPosts);
             }
 
             return const Center(
@@ -77,3 +77,4 @@ AppBar appbar() {
       ),
     );
   }
+*/
