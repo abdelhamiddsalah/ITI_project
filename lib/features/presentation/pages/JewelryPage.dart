@@ -8,7 +8,7 @@ class JewelryPage extends StatefulWidget {
   @override
   _JewelryPageState createState() => _JewelryPageState();
 }
-
+/////////
 class _JewelryPageState extends State<JewelryPage> {
   late Future<List<Jewe>> _futureProducts;
   final ApiService _apiService = ApiService();
