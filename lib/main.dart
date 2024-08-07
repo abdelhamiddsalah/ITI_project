@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:iti_project/features/presentation/pages/JewelryPage.dart';
+import 'package:iti_project/features/presentation/pages/FoodsPage.dart';
 
 
 
@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
-      home: JewelryPage(),
+      home: MealPage(),
     );
   }
 }
