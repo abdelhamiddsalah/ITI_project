@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:iti_project/features/data/models/Random.dart';
 
 class ApiService {
   final Dio _dio = Dio();
