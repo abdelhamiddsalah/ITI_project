@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:iti_project/features/data/repositrys/ex.dart';
+import 'package:iti_project/features/data/repositrys/Api.dart';
 // Adjust the import path as needed
 
 class DrinkPage extends StatefulWidget {
@@ -92,29 +92,13 @@ class _DrinkPageState extends State<DrinkPage> {
                                         children: [
                              // Text(drink!['strTags']),
                               const SizedBox(height: 18),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  const Text('title:'),
-                                  Text(drink['strDrink'], style: const TextStyle(fontWeight: FontWeight.bold)),
-                                ],
-                              ),
-                                Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  const Text('Calory:'),
-                                  Text(drink['strMeasure1'], style: const TextStyle(fontWeight: FontWeight.bold)),
-                                ],
-                              ),
+                              Rowdrink1(drink),
+                               Rowdrink2(drink),
                                         ],
                                       ),
                     ]
                     ),
                   );
-                    //title: Text(meal['strMeal']),
-                    //subtitle: Text(meal['strCategory']),
-                   // leading: Image.network(meal['strMealThumb']),
-                  
                 },
               ),
             ),
@@ -122,6 +106,26 @@ class _DrinkPageState extends State<DrinkPage> {
         ),
       ),
     );
+  }
+
+  Row Rowdrink2(drink) {
+    return Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Text('Calory:'),
+                                Text(drink['strMeasure1'], style: const TextStyle(fontWeight: FontWeight.bold)),
+                              ],
+                            );
+  }
+
+  Row Rowdrink1(drink) {
+    return Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Text('title:'),
+                                Text(drink['strDrink'], style: const TextStyle(fontWeight: FontWeight.bold)),
+                              ],
+                            );
   }
 }
 AppBar appbar() {
