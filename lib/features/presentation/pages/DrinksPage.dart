@@ -1,169 +1,156 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
+import 'package:iti_project/features/data/repositrys/ex.dart';
+// Adjust the import path as needed
 
-void main() {
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
+class DrinkPage extends StatefulWidget {
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.green,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      home: HomePage(),
-    );
-  }
+  _DrinkPageState createState() => _DrinkPageState();
 }
 
-class HomePage extends StatefulWidget {
-  @override
-  _HomePageState createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
-  List<Cocktail> cocktails = [];
-  List<Cocktail> filteredCocktails = [];
-  bool isLoading = true;
-  final TextEditingController _searchController = TextEditingController();
+class _DrinkPageState extends State<DrinkPage> {
+  final DrinkService _drinkService = DrinkService();
+  Map<String, dynamic>? _drinkData;
+  bool _isLoading = true;
 
   @override
   void initState() {
     super.initState();
-    fetchCocktails();
-    _searchController.addListener(() {
-      filterCocktails();
-    });
+    _fetchdrinks();
   }
 
-  Future<void> fetchCocktails() async {
-    final response = await http.get(Uri.parse('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=margarita'));
-    if (response.statusCode == 200) {
-      final data = json.decode(response.body);
+  Future<void> _fetchdrinks() async {
+    try {
+      final data = await _drinkService.fetchdrinks('margarita');
       setState(() {
-        cocktails = (data['drinks'] as List).map((drink) => Cocktail.fromJson(drink)).toList();
-        filteredCocktails = cocktails;
-        isLoading = false;
+        _drinkData = data;
+        _isLoading = false;
       });
-    } else {
-      throw Exception('Failed to load cocktails');
+    } catch (e) {
+      setState(() {
+        _isLoading = false;
+      });
+      // Handle error, e.g., show a message
     }
-  }
-
-  void filterCocktails() {
-    final query = _searchController.text.toLowerCase();
-    setState(() {
-      filteredCocktails = cocktails.where((cocktail) {
-        return cocktail.name.toLowerCase().contains(query);
-      }).toList();
-    });
   }
 
   @override
   Widget build(BuildContext context) {
+    if (_isLoading) {
+      return Scaffold(
+        appBar: AppBar(title: Text('Drinks')),
+        body: Center(child: CircularProgressIndicator()),
+      );
+    }
+
+    if (_drinkData == null) {
+      return Scaffold(
+        appBar: AppBar(title: Text('Meals')),
+        body: Center(child: Text('No data found')),
+      );
+    }
+
     return Scaffold(
-      appBar: AppBar(
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-            bottomRight: Radius.circular(30),
-            bottomLeft: Radius.circular(30),
-          ),
-        ),
-        centerTitle: true,
-        backgroundColor: Colors.green,
-        title: const Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+      appBar:appbar() ,
+      body: Container(
+         padding: EdgeInsets.all(5),
+              margin: EdgeInsets.all(8),
+        child: Column(
           children: [
-            Icon(
-              Icons.location_on_outlined,
-              color: Colors.white,
-              size: 30,
+              SizedBox(height: 30,),
+                    Image.asset('assets/images/Mask Group.png', width: 140,height: 130,),
+                    SizedBox(height: 30,),
+                    TextFormField(
+              decoration: const InputDecoration(
+                labelText: 'Search',
+                border: OutlineInputBorder(),
+              ),
             ),
-            SizedBox(
-              width: 10,
+             const SizedBox(height: 30),
+            const Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text('Category', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
+                Text('Drinks'),
+              ],
             ),
-            Text(
-              "Menofia, Egypt",
-              style: TextStyle(
-                  color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
+            SizedBox(height: 18,),
+            Expanded(
+              child: ListView.builder(
+                itemCount: _drinkData!['drinks']?.length ?? 0,
+                itemBuilder: (context, index) {
+                  final drink = _drinkData!['drinks'][index];
+                  return Container(
+                    padding: EdgeInsets.all(5),
+                      margin: EdgeInsets.all(8),
+                    child: Column(
+                      children: [
+                                     const SizedBox(height: 18),
+                                    Image.network(drink['strDrinkThumb'], width: 80,height: 70,fit: BoxFit.fill,),
+                                      const SizedBox(height: 18),
+                                      Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                             // Text(drink!['strTags']),
+                              const SizedBox(height: 18),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  const Text('title:'),
+                                  Text(drink['strDrink'], style: const TextStyle(fontWeight: FontWeight.bold)),
+                                ],
+                              ),
+                                Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  const Text('Calory:'),
+                                  Text(drink['strMeasure1'], style: const TextStyle(fontWeight: FontWeight.bold)),
+                                ],
+                              ),
+                                        ],
+                                      ),
+                    ]
+                    ),
+                  );
+                    //title: Text(meal['strMeal']),
+                    //subtitle: Text(meal['strCategory']),
+                   // leading: Image.network(meal['strMealThumb']),
+                  
+                },
+              ),
             ),
           ],
         ),
       ),
-      body: Column(
+    );
+  }
+}
+AppBar appbar() {
+    return AppBar(
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          bottomRight: Radius.circular(30),
+          bottomLeft: Radius.circular(30),
+        ),
+      ),
+      centerTitle: true,
+      backgroundColor: Colors.green,
+      title: const Row(
         children: [
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: TextField(
-              controller: _searchController,
-              decoration: InputDecoration(
-                labelText: 'Search Cocktails',
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(30),
-                  borderSide: BorderSide.none,
-                ),
-                filled: true,
-                fillColor: Colors.grey[200],
-                prefixIcon: Icon(Icons.search, color: Colors.grey[600]),
-              ),
-            ),
+          Icon(
+            Icons.location_on_outlined,
+            color: Colors.white,
+            size: 30,
           ),
-          Expanded(
-            child: isLoading
-                ? Center(child: CircularProgressIndicator())
-                : AnimatedSwitcher(
-              duration: Duration(milliseconds: 300),
-              child: ListView.separated(
-                key: ValueKey(filteredCocktails.length),
-                itemCount: filteredCocktails.length,
-                separatorBuilder: (context, index) => Divider(),
-                itemBuilder: (context, index) {
-                  return ListTile(
-                    contentPadding: EdgeInsets.all(10),
-                    leading: CircleAvatar(
-                      backgroundImage: NetworkImage(filteredCocktails[index].imageUrl),
-                      radius: 30,
-                    ),
-                    title: Text(
-                      filteredCocktails[index].name,
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    subtitle: Text(
-                      filteredCocktails[index].instructions,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    tileColor: Colors.grey[100],
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                  );
-                },
-              ),
-            ),
+          SizedBox(
+            width: 10,
+          ),
+          Text(
+            "Menofia, Egypt",
+            style: TextStyle(
+                color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
           ),
         ],
       ),
     );
   }
-}
 
-class Cocktail {
-  final String name;
-  final String instructions;
-  final String imageUrl;
-
-  Cocktail({required this.name, required this.instructions, required this.imageUrl});
-
-  factory Cocktail.fromJson(Map<String, dynamic> json) {
-    return Cocktail(
-      name: json['strDrink'],
-      instructions: json['strInstructions'],
-      imageUrl: json['strDrinkThumb'],
-    );
-  }
-}

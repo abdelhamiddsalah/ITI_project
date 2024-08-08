@@ -51,36 +51,75 @@ class _MealPageState extends State<MealPage> {
 
     return Scaffold(
       appBar:appbar() ,
-      body: ListView.builder(
-        itemCount: _mealData!['meals']?.length ?? 0,
-        itemBuilder: (context, index) {
-          final meal = _mealData!['meals'][index];
-          return Column(children: [
-                        //  TextFormField(),
-                           const SizedBox(height: 8),
-                          Image.network(meal['strMealThumb'], width: 40,height: 40,fit: BoxFit.fill,),
-                            const SizedBox(height: 8),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                    Text(meal['strMeal']),
-                    const SizedBox(height: 8),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      body: Container(
+         padding: EdgeInsets.all(5),
+        margin: EdgeInsets.all(8),
+        child: Column(
+          children: [
+             SizedBox(height: 30,),
+                    Image.asset('assets/images/Mask Group.png', width: 140,height: 130,),
+                    SizedBox(height: 30,),
+                    TextFormField(
+              decoration: const InputDecoration(
+                labelText: 'Search',
+                border: OutlineInputBorder(),
+              ),
+            ),
+             const SizedBox(height: 30),
+            const Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text('Category', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
+                Text('Drinks'),
+              ],
+            ),
+            SizedBox(height: 18,),
+            Expanded(
+              child: ListView.builder(
+                itemCount: _mealData!['meals']?.length ?? 0,
+                itemBuilder: (context, index) {
+                  final meal = _mealData!['meals'][index];
+                  return Container(
+                    padding: EdgeInsets.all(5),
+                      margin: EdgeInsets.all(8),
+                    child: Column(
                       children: [
-                        const Text('Price:'),
-                        Text(meal['strCategory'], style: const TextStyle(fontWeight: FontWeight.bold)),
-                      ],
+                                     const SizedBox(height: 18),
+                                    Image.network(meal['strMealThumb'], width: 80,height: 70,fit: BoxFit.fill,),
+                                      const SizedBox(height: 18),
+                                      Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                              Text(meal['strMeal']),
+                              const SizedBox(height: 18),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  const Text('Price:'),
+                                  Text(meal['strCategory'], style: const TextStyle(fontWeight: FontWeight.bold)),
+                                ],
+                              ),
+                                Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  const Text('Calory:'),
+                                  Text(meal['strMeasure1'], style: const TextStyle(fontWeight: FontWeight.bold)),
+                                ],
+                              ),
+                                        ],
+                                      ),
+                    ]
                     ),
-                              ],
-                            ),
-          ]
-          );
-            //title: Text(meal['strMeal']),
-            //subtitle: Text(meal['strCategory']),
-           // leading: Image.network(meal['strMealThumb']),
-          
-        },
+                  );
+                    //title: Text(meal['strMeal']),
+                    //subtitle: Text(meal['strCategory']),
+                   // leading: Image.network(meal['strMealThumb']),
+                  
+                },
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

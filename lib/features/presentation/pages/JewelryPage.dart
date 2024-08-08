@@ -42,12 +42,11 @@ class _JewelryPageState extends State<JewelryPage> {
             return Container(
               padding: EdgeInsets.all(5),
               margin: EdgeInsets.all(8),
-              decoration: BoxDecoration(
-
-              ),
-              
               child: Column(
                 children: [
+                  SizedBox(height: 30,),
+                  Image.asset('assets/images/Mask Group.png', width: 140,height: 130,),
+                  SizedBox(height: 30,),
                   TextFormField(
             decoration: const InputDecoration(
               labelText: 'Search',
@@ -59,7 +58,7 @@ class _JewelryPageState extends State<JewelryPage> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text('Category', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
-              Text('Random'),
+              Text('Jewelry'),
             ],
           ),
           SizedBox(height: 30,),
@@ -69,25 +68,32 @@ class _JewelryPageState extends State<JewelryPage> {
                       itemBuilder: (context, index) {
                        final product = products[index];
                         return Column(children: [
-                        //  TextFormField(),
                            const SizedBox(height: 8),
                             Image.network(
                               product.image.toString(),
-                              width: 40,
-                              height: 40,
+                              width: 80,
+                              height: 70,
                               fit: BoxFit.fill,
                             ),
-                            const SizedBox(height: 8),
+                            const SizedBox(height:13),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                     Text(product.title.toString()),
-                    const SizedBox(height: 8),
+                    const SizedBox(height: 18),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         const Text('Price:'),
                         Text(product.price.toString(), style: const TextStyle(fontWeight: FontWeight.bold)),
+                      ],
+                    ),
+                    const SizedBox(height: 18),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text('rating:'),
+                        Text('4.6', style: const TextStyle(fontWeight: FontWeight.bold)),
                       ],
                     ),
                               ],

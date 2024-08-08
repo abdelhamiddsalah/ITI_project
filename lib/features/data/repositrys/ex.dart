@@ -46,3 +46,20 @@ class MealService {
     }
   }
 }
+
+class DrinkService {
+  final Dio _dio = Dio();
+
+  Future<Map<String, dynamic>> fetchdrinks(String query) async {
+    try {
+      final response = await _dio.get(
+        'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=margarita',
+        queryParameters: {'s': query},
+      );
+      return response.data;
+    } catch (e) {
+      print('Error fetching meals: $e');
+      throw Exception('Failed to load meals');
+    }
+  }
+}
